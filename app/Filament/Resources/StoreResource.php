@@ -75,7 +75,10 @@ class StoreResource extends Resource
                 Forms\Components\Toggle::make('is_active')
                     ->required()
                     ->label('啟用')
-                    ->default(true),
+                    ->default(true)
+                    ->inline(false)
+                    ->columnSpanFull()
+                    ->helperText('停用後商店將無法被訪問'),
             ]);
     }
 

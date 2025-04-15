@@ -59,7 +59,9 @@ class RoleResource extends Resource
                         Forms\Components\Toggle::make('is_system')
                             ->label('系統角色')
                             ->helperText('系統角色無法被刪除')
-                            ->default(false),
+                            ->default(false)
+                            ->disabled(fn($record) => $record?->is_system)
+                            ->dehydrated(fn($record) => !$record?->is_system),
                     ])
             ]);
     }
@@ -81,13 +83,11 @@ class RoleResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('更新時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->dateTime('Y-m-d H:i:s')
+                    ->sortable(),
             ])
             ->filters([
                 //

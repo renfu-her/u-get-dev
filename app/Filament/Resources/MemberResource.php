@@ -88,11 +88,6 @@ class MemberResource extends Resource
                                     ? '請輸入密碼'
                                     : '留空表示不修改密碼'
                             ),
-
-                        Forms\Components\Toggle::make('is_active')
-                            ->label('啟用')
-                            ->default(true),
-
                         Forms\Components\Select::make('gender')
                             ->label('性別')
                             ->options([
@@ -110,6 +105,12 @@ class MemberResource extends Resource
                             ->label('地址')
                             ->maxLength(500)
                             ->columnSpanFull(),
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('啟用')
+                            ->columnSpanFull()
+                            ->default(true)
+                            ->inline(false),
+
                     ])
             ]);
     }
@@ -159,14 +160,11 @@ class MemberResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')
                     ->dateTime('Y-m-d H:i:s')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('更新時間')
                     ->dateTime('Y-m-d H:i:s')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('gender')

@@ -98,15 +98,16 @@ class ProductResource extends Resource
                     ->directory('products')
                     ->label('其他圖片'),
 
-                Forms\Components\Toggle::make('is_active')
-                    ->required()
-                    ->label('啟用')
-                    ->default(true),
-
                 Forms\Components\Toggle::make('is_featured')
                     ->required()
                     ->label('精選')
                     ->default(false),
+
+                Forms\Components\Toggle::make('is_active')
+                    ->label('啟用')
+                    ->columnSpanFull()
+                    ->default(true)
+                    ->inline(false),
             ]);
     }
 

@@ -89,14 +89,12 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->dateTime('Y-m-d H:i:s')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('更新時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->dateTime('Y-m-d H:i:s')
+                    ->sortable(),
             ])
             ->filters([
                 //

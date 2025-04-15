@@ -108,6 +108,8 @@ class CouponResource extends Resource
                 Forms\Components\Toggle::make('is_active')
                     ->required()
                     ->label('啟用')
+                    ->columnSpanFull()
+                    ->inline(false)
                     ->default(true),
             ]);
     }

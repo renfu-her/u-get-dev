@@ -42,20 +42,17 @@ class PermissionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Card::make()
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('權限名稱')
-                            ->required()
-                            ->maxLength(255)
-                            ->unique(ignoreRecord: true),
-                        Forms\Components\Select::make('roles')
-                            ->label('角色')
-                            ->multiple()
-                            ->relationship('roles', 'name')
-                            ->preload()
-                            ->searchable(),
-                    ])
+                Forms\Components\TextInput::make('name')
+                    ->label('權限名稱')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
+                Forms\Components\Select::make('roles')
+                    ->label('角色')
+                    ->multiple()
+                    ->relationship('roles', 'name')
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 
@@ -77,9 +74,8 @@ class PermissionResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('更新時間')
-                    ->dateTime()
+                    ->dateTime('Y-m-d H:i:s')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
