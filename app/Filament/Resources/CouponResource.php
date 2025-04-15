@@ -18,7 +18,7 @@ class CouponResource extends Resource
     protected static ?string $model = Coupon::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-ticket';
-    protected static ?string $navigationGroup = '商店管理';
+    protected static ?string $navigationGroup = '訂單管理';
 
     protected static ?string $navigationLabel = '優惠券';
     protected static ?string $pluralNavigationLabel = '優惠券';

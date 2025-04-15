@@ -33,7 +33,12 @@ class BackendPanelProvider extends PanelProvider
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
+            ->navigationGroups([
+                '商店管理',
+                '訂單管理',
+                '會員管理',
+                '權限管理',
+                '系統管理',
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

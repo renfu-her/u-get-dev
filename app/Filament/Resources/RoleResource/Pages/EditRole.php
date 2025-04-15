@@ -17,4 +17,9 @@ class EditRole extends EditRecord
                 ->visible(fn() => !$this->record->is_system),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
