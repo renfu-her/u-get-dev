@@ -19,6 +19,12 @@ class MemberResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = '設定';
+    protected static ?string $navigationLabel = '會員';
+    protected static ?string $pluralNavigationLabel = '會員';
+    protected static ?string $pluralModelLabel = '會員';
+    protected static ?string $modelLabel = '會員';
+
     public static function form(Form $form): Form
     {
         return $form

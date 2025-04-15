@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductCategoryResource\Pages;
-use App\Filament\Resources\ProductCategoryResource\RelationManagers;
-use App\Models\ProductCategory;
+use App\Filament\Resources\ProductResource\Pages;
+use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,18 +14,30 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
-class ProductCategoryResource extends Resource
+class ProductResource extends Resource
 {
-    protected static ?string $model = ProductCategory::class;
+    protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+
     protected static ?string $navigationGroup = '商店管理';
 
-    protected static ?string $navigationLabel = '商品分類';
-    protected static ?string $pluralNavigationLabel = '商品分類';
-    protected static ?string $pluralModelLabel = '商品分類';
-    protected static ?string $modelLabel = '商品分類';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
+
+    public static function getNavigationLabel(): string
+    {
+        return '產品管理';
+    }
+
+    public static function getModelLabel(): string
+    {
+        return '產品';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return '產品';
+    }
 
     public static function form(Form $form): Form
     {
@@ -37,6 +49,12 @@ class ProductCategoryResource extends Resource
                     ->searchable()
                     ->preload()
                     ->label('商店'),
+
+                Forms\Components\Select::make('category_id')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->label('分類'),
 
                 Forms\Components\TextInput::make('name')
                     ->required()
@@ -57,20 +75,38 @@ class ProductCategoryResource extends Resource
                     ->label('描述')
                     ->columnSpanFull(),
 
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->directory('categories')
-                    ->label('圖片'),
+                Forms\Components\TextInput::make('price')
+                    ->required()
+                    ->numeric()
+                    ->prefix('NT$')
+                    ->label('價格'),
 
-                Forms\Components\TextInput::make('sort_order')
+                Forms\Components\TextInput::make('stock')
+                    ->required()
                     ->numeric()
                     ->default(0)
-                    ->label('排序'),
+                    ->label('庫存'),
+
+                Forms\Components\FileUpload::make('image')
+                    ->image()
+                    ->directory('products')
+                    ->label('主要圖片'),
+
+                Forms\Components\FileUpload::make('images')
+                    ->multiple()
+                    ->image()
+                    ->directory('products')
+                    ->label('其他圖片'),
 
                 Forms\Components\Toggle::make('is_active')
                     ->required()
                     ->label('啟用')
                     ->default(true),
+
+                Forms\Components\Toggle::make('is_featured')
+                    ->required()
+                    ->label('精選')
+                    ->default(false),
             ]);
     }
 
@@ -83,22 +119,36 @@ class ProductCategoryResource extends Resource
                     ->searchable()
                     ->label('商店'),
 
+                Tables\Columns\TextColumn::make('category.name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('分類'),
+
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->label('名稱'),
 
-                Tables\Columns\ImageColumn::make('image')
-                    ->label('圖片'),
+                Tables\Columns\TextColumn::make('price')
+                    ->money('TWD')
+                    ->sortable()
+                    ->label('價格'),
 
-                Tables\Columns\TextColumn::make('sort_order')
+                Tables\Columns\TextColumn::make('stock')
                     ->numeric()
                     ->sortable()
-                    ->label('排序'),
+                    ->label('庫存'),
+
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('圖片'),
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean()
                     ->label('啟用'),
+
+                Tables\Columns\IconColumn::make('is_featured')
+                    ->boolean()
+                    ->label('精選'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('Y-m-d H:i:s')
@@ -111,8 +161,15 @@ class ProductCategoryResource extends Resource
                     ->relationship('store', 'name')
                     ->label('商店'),
 
+                Tables\Filters\SelectFilter::make('category')
+                    ->relationship('category', 'name')
+                    ->label('分類'),
+
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('啟用狀態'),
+
+                Tables\Filters\TernaryFilter::make('is_featured')
+                    ->label('精選狀態'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -123,7 +180,7 @@ class ProductCategoryResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('sort_order', 'asc');
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
@@ -136,9 +193,9 @@ class ProductCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProductCategories::route('/'),
-            'create' => Pages\CreateProductCategory::route('/create'),
-            'edit' => Pages\EditProductCategory::route('/{record}/edit'),
+            'index' => Pages\ListProducts::route('/'),
+            'create' => Pages\CreateProduct::route('/create'),
+            'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 
