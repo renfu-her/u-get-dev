@@ -50,14 +50,22 @@ class UserResource extends Resource
                             ->email()
                             ->required()
                             ->maxLength(255)
-                            ->unique(ignoreRecord: true),
+                            ->unique(ignoreRecord: true)
+                            ->disabled(fn(string $operation): bool => $operation === 'edit')
+                            ->dehydrated(true),
                         Forms\Components\TextInput::make('password')
                             ->label('密碼')
                             ->password()
                             ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
                             ->dehydrated(fn(?string $state): bool => filled($state))
                             ->required(fn(string $operation): bool => $operation === 'create')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->helperText(
+                                fn(string $operation): string =>
+                                $operation === 'create'
+                                    ? '請輸入密碼'
+                                    : '留空表示不修改密碼'
+                            ),
                         Forms\Components\Select::make('roles')
                             ->label('角色')
                             ->multiple()
