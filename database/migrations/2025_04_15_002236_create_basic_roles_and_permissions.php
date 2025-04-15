@@ -15,6 +15,7 @@ class CreateBasicRolesAndPermissions extends Migration
             'create users',
             'edit users',
             'delete users',
+            
             // 角色管理
             'view roles',
             'create roles',
@@ -25,6 +26,30 @@ class CreateBasicRolesAndPermissions extends Migration
             'create permissions',
             'edit permissions',
             'delete permissions',
+
+            // 商品管理
+            'view products',
+            'create products',
+            'edit products',
+            'delete products',
+
+            // 商品分類管理
+            'view product_categories',
+            'create product_categories',
+            'edit product_categories',
+            'delete product_categories',
+
+            // 優惠券管理
+            'view coupons', 
+            'create coupons',
+            'edit coupons',
+            'delete coupons',
+
+            // 訂單管理
+            'view orders',
+            'create orders',
+            'edit orders',
+            'delete orders',
         ];
 
         foreach ($permissions as $permission) {
