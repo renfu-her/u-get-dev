@@ -28,25 +28,26 @@ class CouponResource extends Resource
     protected static ?string $modelLabel = '優惠券';
     protected static ?int $navigationSort = 4;
 
-    // public static function canViewAny(): bool
-    // {
-    //     return Auth::user()?->can('view coupons') ?? false;
-    // }
+    public static function canViewAny(): bool
+    {
 
-    // public static function canCreate(): bool
-    // {
-    //     return Auth::user()?->can('create coupons') ?? false;
-    // }
+        return Auth::user()->hasPermissionTo('view coupons');
+    }
 
-    // public static function canEdit(Model $record): bool
-    // {
-    //     return Auth::user()?->can('edit coupons') ?? false;
-    // }
+    public static function canCreate(): bool
+    {
+        return Auth::user()->hasPermissionTo('create coupons');
+    }
 
-    // public static function canDelete(Model $record): bool
-    // {
-    //     return Auth::user()?->can('delete coupons') ?? false;
-    // }
+    public static function canEdit(Model $record): bool
+    {
+        return Auth::user()->hasPermissionTo('edit coupons');
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return Auth::user()->hasPermissionTo('delete coupons');
+    }
 
     public static function form(Form $form): Form
     {
