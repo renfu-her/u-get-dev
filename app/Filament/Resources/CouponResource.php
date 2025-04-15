@@ -11,7 +11,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class CouponResource extends Resource
 {
@@ -25,6 +27,26 @@ class CouponResource extends Resource
     protected static ?string $pluralModelLabel = '優惠券';
     protected static ?string $modelLabel = '優惠券';
     protected static ?int $navigationSort = 4;
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()?->can('view coupons') ?? false;
+    }
+
+    public static function canCreate(): bool
+    {
+        return Auth::user()?->can('create coupons') ?? false;
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return Auth::user()?->can('edit coupons') ?? false;
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return Auth::user()?->can('delete coupons') ?? false;
+    }
 
     public static function form(Form $form): Form
     {
