@@ -62,7 +62,7 @@ class CouponResource extends Resource
                 Forms\Components\TextInput::make('value')
                     ->required()
                     ->numeric()
-                    ->prefix(fn (Forms\Get $get) => $get('type') === 'percentage' ? '%' : 'NT$')
+                    ->prefix(fn(Forms\Get $get) => $get('type') === 'percentage' ? '%' : 'NT$')
                     ->label('優惠值'),
 
                 Forms\Components\TextInput::make('min_purchase')
@@ -110,11 +110,11 @@ class CouponResource extends Resource
 
                 Tables\Columns\TextColumn::make('type')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'percentage' => 'success',
                         'fixed' => 'info',
                     })
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
                         'percentage' => '百分比',
                         'fixed' => '固定金額',
                     })
@@ -122,7 +122,7 @@ class CouponResource extends Resource
 
                 Tables\Columns\TextColumn::make('value')
                     ->formatStateUsing(function ($record) {
-                        return $record->type === 'percentage' ? "{$record->value}%" : "NT${$record->value}";
+                        return $record->type === 'percentage' ? "{$record->value}%" : "NT$" . $record->value;
                     })
                     ->label('優惠值'),
 
